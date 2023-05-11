@@ -1,8 +1,8 @@
 use bevy_app::{App, Plugin};
 
-pub use resources::TokioRuntime;
+pub use tokio_runtime::TokioRuntime;
 
-mod resources;
+mod tokio_runtime;
 
 #[derive(Default)]
 pub struct TokioRuntimePlugin;
