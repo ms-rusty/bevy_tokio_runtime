@@ -12,7 +12,7 @@ pub struct TokioRuntime {
 }
 
 impl TokioRuntime {
-    pub fn build(&mut self, mut builder: Builder) -> Result<(), anyhow::Error> {
+    pub fn build(&mut self, builder: &mut Builder) -> Result<(), anyhow::Error> {
         if self.runtime.is_some() {
             return Err(anyhow!("Tokio Runtime already exists."));
         }
