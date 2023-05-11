@@ -1,6 +1,5 @@
-use std::future::Future;
-
 use bevy_ecs::system::Resource;
+use std::future::Future;
 use tokio::{runtime::Runtime, task::JoinHandle};
 
 #[derive(Resource, Default)]

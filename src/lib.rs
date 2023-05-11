@@ -9,6 +9,6 @@ pub struct TokioRuntimePlugin;
 
 impl Plugin for TokioRuntimePlugin {
     fn build(&self, app: &mut App) {
-        app.insert_resource(TokioRuntime::default());
+        app.init_resource::<TokioRuntime>();
     }
 }
