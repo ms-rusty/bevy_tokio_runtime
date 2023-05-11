@@ -1,23 +1,14 @@
-use anyhow::anyhow;
-use bevy_ecs::system::Resource;
-use std::future::Future;
-use tokio::{
-    runtime::{Builder, Runtime},
-    task::JoinHandle,
-};
-
-#[derive(Resource, Default)]
+#[derive(bevy_ecs::system::Resource, Default)]
 pub struct TokioRuntime {
-    runtime: Option<Runtime>,
+    runtime: Option<tokio::runtime::Runtime>,
 }
 
 impl TokioRuntime {
-    pub fn build(&mut self, builder: &mut Builder) -> Result<(), anyhow::Error> {
+    pub fn new(&mut self, runtime: tokio::runtime::Runtime) -> Result<(), anyhow::Error> {
         if self.runtime.is_some() {
-            return Err(anyhow!("Tokio Runtime already exists."));
+            return Err(anyhow::anyhow!("Tokio Runtime already exists."));
         }
-
-        self.runtime = Some(builder.build()?);
+        self.runtime = Some(runtime);
 
         Ok(())
     }
@@ -25,14 +16,14 @@ impl TokioRuntime {
     pub fn spawn_task<Task, Output, Spawnable>(
         &self,
         spawnable_task: Spawnable,
-    ) -> Result<JoinHandle<Output>, anyhow::Error>
+    ) -> Result<tokio::task::JoinHandle<Output>, anyhow::Error>
     where
-        Task: Future<Output = Output> + Send + 'static,
+        Task: std::future::Future<Output = Output> + Send + 'static,
         Output: Send + 'static,
         Spawnable: FnOnce() -> Task + Send + 'static,
     {
         let Some(runtime) = &self.runtime else {
-            return Err(anyhow!("Tokio Runtime not found."));
+            return Err(anyhow::anyhow!("Tokio Runtime not found."));
         };
 
         Ok(runtime.spawn(spawnable_task()))
