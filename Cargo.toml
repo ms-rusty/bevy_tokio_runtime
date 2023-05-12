@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bevy_app = "0.10.1"
-bevy_ecs = "0.10.1"
+bevy_app = { git = "https://github.com/bevyengine/bevy", commit = "636f711d26b79cab068e029c4c058d45fca84970" }
+bevy_ecs = { git = "https://github.com/bevyengine/bevy", commit = "636f711d26b79cab068e029c4c058d45fca84970" }
 tokio = { version = "1.28.0", features = ["rt-multi-thread", "sync"] }
