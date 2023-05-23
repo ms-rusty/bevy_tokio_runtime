@@ -16,10 +16,10 @@ impl TokioRuntime {
         self.runtime = Some(runtime);
     }
 
-    pub fn spawn_task<Task, Output>(&self, future: Task) -> JoinHandle<Output>
+    pub fn spawn_task<Task>(&self, future: Task) -> JoinHandle<Task::Output>
     where
-        Task: Future<Output = Output> + Send + 'static,
-        Output: Send + 'static,
+        Task: Future + Send + 'static,
+        Task::Output: Send + 'static,
     {
         let Some(runtime) = &self.runtime else {
             panic!("Tokio Runtime not found.");
