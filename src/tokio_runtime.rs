@@ -27,4 +27,8 @@ impl TokioRuntime {
 
         runtime.spawn(future)
     }
+
+    pub fn get_runtime(&self) -> &Option<Runtime> {
+        &self.runtime
+    }
 }
